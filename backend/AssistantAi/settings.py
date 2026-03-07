@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Jarvis',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -67,6 +69,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'AssistantAi.wsgi.application'
+ASGI_APPLICATION = 'AssistantAi.asgi.application'
 
 
 # Database

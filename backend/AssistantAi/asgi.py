@@ -11,6 +11,15 @@ import os
 
 from django.core.asgi import get_asgi_application
 
+from channels.routing import ProtocolTypeRouter, URLRouter
+
+from channels.auth import AuthMiddlewareStack
+import Jarvis.routingProtocol
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AssistantAi.settings')
 
-application = get_asgi_application()
+application = ProtocolTypeRouter({'http': get_asgi_application(), 
+                                    'websocket': AuthMiddlewareStack(
+                                        URLRouter( Jarvis.routingProtocol.websocket_urlpatterns)
+                                    )})
+    
