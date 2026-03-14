@@ -34,7 +34,7 @@ def nettoyer_donnees(dataset_brute):
     
     donnees_stockees = []
     stop_words = ["mba", "ny","azafady","kely","hoe"]
-
+    
     #separation des donnees par lignes
     lignes = dataset_brute.split("\n")
     print("Nb de lignes: ", {len(lignes)})
@@ -56,7 +56,10 @@ def nettoyer_donnees(dataset_brute):
 
             #On le divise en dernier lieu apres avoir tout fait
             mots_liste = phrase_propre.split()
-        donnees_stockees.append([mots_liste, action[1].strip()])
+
+            #garder le mot dans la liste si le mot n'est pas dans stop words
+            mots_filtre = [mot for mot in mots_liste if mot not in stop_words]
+        donnees_stockees.append([mots_filtre, action[1].strip()])
 
     print("Nettoyage terminé")
     print(donnees_stockees)
