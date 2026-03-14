@@ -25,27 +25,27 @@ MANDEFASA HIRA, play_song
 ALEFASO ILAY HIRA TIAKO INDRINRA, play_song
 AFAKA MANDEFA HIRA VE IANAO, play_song
 ANDEFASO MAILAKA I NENY, envoyer_mail
-Mitady hira mampitony saina aho fa reraka be androany, play_song
-Mba mivazivazy kely aloha fa somary vizana ny saina, raconter_blague
-inona ny vaovao momba ny toetandro,donner_meteo
-manao ahoana ny andro any toamasina,donner_meteo
-hivoaka aho ka jereo ny andro,donner_meteo
-inona no ora izao,afficher_heure
-mba omeo ora azafady,afficher_heure
-omeo ora, afficher_heure
-amin ny firy izao, afficher_heure
-ampy ve ny fotoana alohan ny amin ny sivy,calcul_temps
-mbola manana folo minitra ve aho,calcul_temps
-andefaso mailaka i maman,envoyer_email
-lazaon i maman hoe ho tonga aho afaka 10 mn,envoyer_email
-andefaso hafatra i dadabe,envoyer_email
-alefaso hira vaovao ao amin ny youtube,play_song
-mitady hira mampitony saina aho fa reraka, play_relax_song
-atomboy ny hira fianarana, play_relax_song
-mba mivazivazy kely aloha fa vizana ny saina, raconter_blague
-reraka be aho androany, mode_relax
-somary reraka aho androany, mode_relax
-tezitra be aho androany,humeur_negative
-tsy milamina ny saina mihitsy,humeur_negative
-malahelo aho fa tsy nety ny fanadinana,humeur_negative
-ratsy be ny androko androany,humeur_negative
+MITADY HIRA MAMPITONY SAINA AHO FA RERAKA BE ANDROANY, PLAY_SONG
+MBA MIVAZIVAZY KELY ALOHA FA SOMARY VIZANA NY SAINA, RACONTER_BLAGUE
+INONA NY VAOVAO MOMBA NY TOETANDRO,DONNER_METEO
+MANAO AHOANA NY ANDRO ANY TOAMASINA,DONNER_METEO
+HIVOAKA AHO KA JEREO NY ANDRO,DONNER_METEO
+INONA NO ORA IZAO,AFFICHER_HEURE
+MBA OMEO ORA AZAFADY,AFFICHER_HEURE
+OMEO ORA, AFFICHER_HEURE
+AMIN NY FIRY IZAO, AFFICHER_HEURE
+AMPY VE NY FOTOANA ALOHAN NY AMIN NY SIVY,CALCUL_TEMPS
+MBOLA MANANA FOLO MINITRA VE AHO,CALCUL_TEMPS
+ANDEFASO MAILAKA I MAMAN,ENVOYER_EMAIL
+LAZAON I MAMAN HOE HO TONGA AHO AFAKA 10 MN,ENVOYER_EMAIL
+ANDEFASO HAFATRA I DADABE,ENVOYER_EMAIL
+ALEFASO HIRA VAOVAO AO AMIN NY YOUTUBE,PLAY_SONG
+MITADY HIRA MAMPITONY SAINA AHO FA RERAKA, PLAY_RELAX_SONG
+ATOMBOY NY HIRA FIANARANA, PLAY_RELAX_SONG
+MBA MIVAZIVAZY KELY ALOHA FA VIZANA NY SAINA, RACONTER_BLAGUE
+RERAKA BE AHO ANDROANY, MODE_RELAX
+SOMARY RERAKA AHO ANDROANY, MODE_RELAX
+TEZITRA BE AHO ANDROANY,HUMEUR_NEGATIVE
+TSY MILAMINA NY SAINA MIHITSY,HUMEUR_NEGATIVE
+MALAHELO AHO FA TSY NETY NY FANADINANA,HUMEUR_NEGATIVE
+RATSY BE NY ANDROKO ANDROANY,HUMEUR_NEGATIVE
