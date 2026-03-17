@@ -25,13 +25,9 @@ def nettoyer_phrase(sentence):
     for symbole in ponctuation:
         clean_sentence = clean_sentence.replace(symbole, "")
         
-    return(print(clean_sentence))
+    return clean_sentence
 
-
-
-#Nettoyage des données 
-if __name__ == "__main__":
-    def nettoyer_dataset(brute):
+def nettoyer_dataset(brute):
         if brute is None:
             return 
         
@@ -76,8 +72,9 @@ if __name__ == "__main__":
         print(vocabulaire_globale)
 
         # Retourner Intentions et liste de mots uniques 
-        return dataset_entrainement, dictionnaire_mots 
+        return dataset_entrainement, vocabulaire_globale 
 
+
+if __name__ == "__main__":
     dataset_brute = charger_dataset()
-    nettoyer_dataset(dataset_brute)
-
+    data, vocab = nettoyer_dataset(dataset_brute)
