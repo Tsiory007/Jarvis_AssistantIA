@@ -8,20 +8,39 @@ K_value = 3 #Pour l'algo KNN
 contenu = charger_dataset()
 
 #2 arguments car nettoyer dataset returne 2 valeurs
-intentions, vocabulaire_global = nettoyer_dataset(contenu)
+dataset_entrainement, vocabulaire_globale = nettoyer_dataset(contenu)
 
-phrase_user = input("Entrez une commande: \n")
 
-def vectoriser(phrase_user, vocabulaires):
-    vecteur = np.zeros(len(vocabulaires) , dtype=int)
-    clean = nettoyer_phrase(phrase_user)
-    for word in vocabulaires:
-        if word in clean:
-            indice = vocabulaires.index(word)
+#vectorisation 
+def vectoriser(phrase_commande, vocabulaire):
+    vecteur = np.zeros(len(vocabulaire), dtype=int)
+    for mot in phrase_commande:
+        if mot in vocabulaire:
+            indice = vocabulaire.index(mot)
             vecteur[indice] = 1
+    return vecteur
 
-    print(vecteur)
-    return(vecteur)
 
-vectoriser(phrase_user,vocabulaire_global)
 
+def entrainer_modele(dataset, vocabulaire):
+    X_temp = []
+    for ligne in dataset:
+       mots_dataset = ligne[0]
+       v_ligne = vectoriser(mots_dataset, vocabulaire_globale)
+       X_temp.append(v_ligne)
+    
+    return np.array(X_temp)
+
+
+def prompt_user():
+    sentence = input("Entrer commande: \n")
+    clean_sentence = nettoyer_phrase(sentence)
+    resultat = vectoriser(clean_sentence,vocabulaire_globale)
+    print(resultat)
+
+
+prompt_user()
+
+# Entrainement du dataset
+X_train = entrainer_modele(dataset_entrainement, vocabulaire_globale)
+print(X_train, )
