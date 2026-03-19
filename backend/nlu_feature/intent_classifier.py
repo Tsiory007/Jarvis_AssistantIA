@@ -11,36 +11,34 @@ contenu = charger_dataset()
 dataset_entrainement, vocabulaire_globale = nettoyer_dataset(contenu)
 
 
-#vectorisation 
 def vectoriser(phrase_commande, vocabulaire):
     vecteur = np.zeros(len(vocabulaire), dtype=int)
     for mot in phrase_commande:
         if mot in vocabulaire:
             indice = vocabulaire.index(mot)
             vecteur[indice] = 1
+
     return vecteur
 
-
-
 def entrainer_modele(dataset, vocabulaire):
+
+    #Matrice vide
     X_temp = []
     for ligne in dataset:
        mots_dataset = ligne[0]
-       v_ligne = vectoriser(mots_dataset, vocabulaire_globale)
+       v_ligne = vectoriser(mots_dataset, vocabulaire)
        X_temp.append(v_ligne)
     
     return np.array(X_temp)
 
 
 def prompt_user():
-    sentence = input("Entrer commande: \n")
+    sentence = input("Que voulez vous faire? \n")
     clean_sentence = nettoyer_phrase(sentence)
-    resultat = vectoriser(clean_sentence,vocabulaire_globale)
-    print(resultat)
-
+    v_user = vectoriser(clean_sentence, vocabulaire_globale)
+    return print(v_user)
 
 prompt_user()
 
-# Entrainement du dataset
 X_train = entrainer_modele(dataset_entrainement, vocabulaire_globale)
-print(X_train, )
+print(X_train)
