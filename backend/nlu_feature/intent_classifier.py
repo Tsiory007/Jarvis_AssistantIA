@@ -62,11 +62,25 @@ def calcul_des_distances(v_user, v_dataset):
 
         distance = math.sqrt(somme_carree)
         distances.append(distance)
+    return distances
 
-        #la plus petite distance
-        distance_min = np.argmin(distances)
-    print(f"La commande la plus proche est a la ligne {distance_min}")
-    commande_a_executer = dataset_entrainement[distance_min][1]
-    print(f"Jarvis a decidé de",commande_a_executer)
 
-calcul_des_distances(vecteur_user, X_train)
+#Alefa anaty variable vaovao manjary tsy afaka antsoina
+tous_les_scores = calcul_des_distances(vecteur_user, X_train)
+
+
+
+def intrepreter_commande(distances, dataset, seuil=0.9):
+    index_du_minimale = np.argmin(distances)
+    score = distances[index_du_minimale]
+    if np.sum(vecteur_user) == 0:
+        print("Je ne connais pas les mots")
+        return
+    commande_a_executer = dataset[index_du_minimale][1]
+    if score <= seuil:
+        print(f"La ligne la plus proche se situe à la ligne: {index_du_minimale}, score({score})")
+        print("Jarvis a l'intention de", commande_a_executer)
+    else: 
+        print("Commande introuvable, veuillez ressayer Monsieur ", score)
+
+intrepreter_commande(tous_les_scores, dataset_entrainement)
