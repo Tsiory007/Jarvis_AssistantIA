@@ -32,13 +32,13 @@ def nettoyer_dataset(brute):
             return 
         
         dataset_entrainement = [] # ex: couple [Sokafy chrome, ouvrir_chrome()]
-        stop_words = ["mba", "ny", "azafady",  "kely", "hoe","dia", "fa",
-                    "ao", "amin", "an", "i","ve", "no", "re", "ve", 
-                    "koa","izany", "ity", "ireo", "izao","indrindra"]
+        stop_words = ["le", "la", "les", "un", "une", "des", "du", "de", 
+                        "m", "l", "s", "t", "d", "n", "que", "pour",
+                        "peux", "tu", "me", "je", "s", "il", "te", "plait", "plaît"]
         dictionnaire_mots = [] # liste de tous les mots uniques
 
         # Separation par lignes du dataset.csv
-        lignes = brute.split("\n")
+        lignes = brute.strip().split("\n")
         for ligne in lignes: 
             if not ligne or ',' not in ligne:
                 continue

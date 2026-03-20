@@ -70,12 +70,12 @@ tous_les_scores = calcul_des_distances(vecteur_user, X_train)
 
 
 
-def intrepreter_commande(distances, dataset, seuil=0.9):
+def intrepreter_commande(distances, dataset, seuil=1.8):
     index_du_minimale = np.argmin(distances)
     score = distances[index_du_minimale]
     if np.sum(vecteur_user) == 0:
         print("Je ne connais pas les mots")
-        return
+
     commande_a_executer = dataset[index_du_minimale][1]
     if score <= seuil:
         print(f"La ligne la plus proche se situe à la ligne: {index_du_minimale}, score({score})")
