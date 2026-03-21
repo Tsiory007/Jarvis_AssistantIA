@@ -69,6 +69,7 @@ def interpreter_commande():
     #Retirer indice du min
     indice_min = np.argmin(tous_les_scores)
     score = tous_les_scores[indice_min]
+    print(score)
     seuil = 1.5
 
     if score <= seuil:
