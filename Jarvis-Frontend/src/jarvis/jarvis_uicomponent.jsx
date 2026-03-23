@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Mic, MicOff, Camera, MessageSquare, Send, X, Download, Trash2, ChevronDown, ChevronUp } from "lucide-react";
 import ChatTabs from "./composant/ChatTabs";
-import EnregistrementAudio from "./composant/EnregistrementAudio";
+//import EnregistrementAudio from "./composant/EnregistrementAudio";
 
 export default function JarvisUI() {
 
@@ -58,12 +58,14 @@ export default function JarvisUI() {
 
       ws.onopen = () => {
         console.log("Connexion WebSocket établie");
-        // envoyer message d'accueil
         try { ws.send(JSON.stringify({ message: "Hello de JarvisUI!" })); } catch(_) {}
-        // flush queue
+        // flush queue (supporte ArrayBuffer ou objets JSON)
         while (sendQueueRef.current.length && ws.readyState === WebSocket.OPEN) {
           const p = sendQueueRef.current.shift();
-          try { ws.send(JSON.stringify(p)); } catch(_) { sendQueueRef.current.unshift(p); break; }
+          try {
+            if (p instanceof ArrayBuffer) ws.send(p);
+            else ws.send(JSON.stringify(p));
+          } catch(_) { sendQueueRef.current.unshift(p); break; }
         }
       };
 
@@ -75,6 +77,17 @@ export default function JarvisUI() {
             console.log(`Chunk ${msg.chunk_index} reçu par le serveur`);
           } else if (msg.type === 'recording_saved') {
             addMsg("ai", `✓ Enregistrement sauvegardé: ${msg.total_chunks} chunks`);
+          } else if (msg.type === 'interim_transcript') {
+            // mise à jour de la transcription en direct
+            setTranscript(msg.text || "");
+            setInput(msg.text || "");
+          } else if (msg.type === 'final_transcript') {
+            // transcription finale reçue
+            setTranscript(msg.text || "");
+            setInput("");
+            addMsg("ai", `Transcription finale reçue (${msg.txt_file})`);
+          } else {
+            addMsg("ai", event.data);
           }
         } catch (e) {
           addMsg("ai", event.data);
@@ -142,38 +155,41 @@ export default function JarvisUI() {
     const mr = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
     mediaRecRef.current = mr;
 
-    // enregistre les chunks localement ET envoie chaque chunk (~1s) via WebSocket
-    mr.ondataavailable = e => {
+    // enregistre les chunks localement (uniquement) — plus d'envoi par chunk
+    mr.ondataavailable = (e) => {
       if (!e.data || e.data.size === 0) return;
       audioChunksRef.current.push(e.data);
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        const payload = {
-          type: 'audio_chunk',
-          chunk_index: chunkIndexRef.current,
-          chunk_name: `audio_chunk_${chunkIndexRef.current}.${ext}`,
-          data: reader.result,
-          sample_rate: null
-        };
-        if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
-          try { socketRef.current.send(JSON.stringify(payload)); }
-          catch (_) { sendQueueRef.current.push(payload); }
-        } else {
-          sendQueueRef.current.push(payload);
-        }
-        setAudioChunksUploaded(prev => prev + 1);
-        chunkIndexRef.current++; // increment after queue/send
-      };
-      reader.readAsDataURL(e.data);
     };
 
-    mr.onstop = () => {
+    mr.onstop = async () => {
+       setRecStatus("processing");
        // Type propre sans paramètres de codec pour le Blob
       const cleanType = mimeType ? mimeType.split(";")[0] : "audio/webm";
       const ext = cleanType.includes("ogg") ? "ogg" : cleanType.includes("webm") ? "webm" : "wav";
       const blob = new Blob(audioChunksRef.current, { type: cleanType });
       const url  = URL.createObjectURL(blob);
+
+      // envoyer le fichier complet au serveur via WebSocket (binaire header + bytes)
+      try {
+        const ab = await blob.arrayBuffer();
+        const filename = `recording_${Date.now()}.${ext}`;
+        const header = JSON.stringify({ type: 'full_recording', filename });
+        const headerBytes = new TextEncoder().encode(header);
+        const packet = new Uint8Array(4 + headerBytes.length + ab.byteLength);
+        const dv = new DataView(packet.buffer);
+        dv.setUint32(0, headerBytes.length, true);
+        packet.set(headerBytes, 4);
+        packet.set(new Uint8Array(ab), 4 + headerBytes.length);
+
+        const payload = packet.buffer;
+        if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+          socketRef.current.send(payload);
+        } else {
+          sendQueueRef.current.push(payload);
+        }
+      } catch (err) {
+        console.error("Erreur envoi enregistrement complet :", err);
+      }
 
       const capturedText = finalTextRef.current.trim() || "(aucune transcription)";
       setVoiceLogs(prev => [{
@@ -187,7 +203,8 @@ export default function JarvisUI() {
       setTranscript("");
     };
 
-    mr.start(1000);
+    // démarrer sans timeslice pour n'avoir qu'un seul blob à la fin
+    mr.start();
     chunkIndexRef.current = 0;
 
     // Speech Recognition
