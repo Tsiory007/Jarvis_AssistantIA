@@ -18,6 +18,26 @@ def charger_dataset():
         print("Une erreur est survenue")   
 
 
+# Gérer les synonymes
+synonymes = {
+    "son": "musique",
+    "chanson": "musique",
+    "titre": "musique",
+    "morceau": "musique",
+    "google": "chrome",
+    "maman": "mere"
+}
+
+
+def gerer_synonyme(phrase):
+    mots = phrase.split()
+    phrase_corrige = []
+    for m in mots:
+        new = synonymes.get(m,m)
+        phrase_corrige.append(new)
+    return new.join(" ").join(phrase_corrige)
+
+
 # Nettoyer une phrase entrée par l'utilisateur
 def nettoyer_phrase(sentence):
     clean_sentence = sentence.lower().strip()
@@ -33,7 +53,7 @@ def nettoyer_dataset(brute):
         
         dataset_entrainement = [] # ex: couple [Sokafy chrome, ouvrir_chrome()]
         stop_words = ["est", "ce","que", "tu", "peux", "pourrais","s'il","te", "plait","je", "voudrais","j'aimerais","veux",
-                       "le", "la","les","l'","un","une","des","de","du","à","pour","au","mon","ma","mes","faire"
+                       "le", "la","les","l'","un","une","des","de","du","pour","au","mon","ma","mes","faire"
                       ]
         dictionnaire_mots = [] # liste de tous les mots uniques
 
