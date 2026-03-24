@@ -1,6 +1,7 @@
 import math
 import os
 import numpy as np
+import random
 from preprocessing import nettoyer_phrase, nettoyer_dataset, charger_dataset
 chemain_ai = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'ai_service'))
 
@@ -22,7 +23,7 @@ def vectoriser(phrase_commande, vocabulaire):
 
 #Vectoriser tous les lignes du dataset
 def entrainer_modele(dataset, vocabulaire):
-
+    
     #Matrice vide
     X_temp = []
     for ligne in dataset:
@@ -58,7 +59,23 @@ def interpreter_commande():
 
     #Verifier si on connait les mots
     resultat = [m for m in clean_sentence if m in vocabulaire_globale]
+
+    #Mots sur l'identité de JARVIS
+    mots_identite = ["qui","es","tu","presentes","vous","presenter","presentez","toi","nom","presente","concevoir","concue","identite","presentation","ton nom","c'est quoi ton identité"]
     
+    if sum(1 for m in clean_sentence if m in mots_identite) >= 2:
+        liste_presentation = [
+
+            "Je suis JARVIS, un assistant IA crée par 6 étudiants en troisième annéé d'informatique",
+            "Bonjour, c'est JARVIS, votre système intelligent capable de tout faire",
+            "Mon nom est JARVIS, une intelligence artificielle qui peux vous assister dans vos taches quotidiens"
+        ]
+
+        presentation_random = random.choice(liste_presentation)        
+
+        #Reponse fixe va etre contenu dans la phrase_user 
+        return ("presentation_jarvis", presentation_random) 
+
     if len(resultat) == 0:
         #on renvoie quand meme la phrase pour l'envoyer a l api
         return (None,sentence) 

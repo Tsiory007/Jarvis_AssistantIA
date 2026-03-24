@@ -23,4 +23,7 @@ def executer_commande(prediction, phrase_user):
             webbrowser.open(f"https://www.google.com/search?q={query_encode}+youtube&btnI")
         else:
             print("Quel musique veux tu ecouter? ")
+    
+    elif prediction == "presentation_jarvis":
+        print(f"Jarvis: "f"{phrase_user}")
 
