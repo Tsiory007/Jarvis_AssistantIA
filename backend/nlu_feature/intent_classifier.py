@@ -58,7 +58,7 @@ def interpreter_commande(commande:str = None):
     resultat = [m for m in clean_sentence if m in vocabulaire_globale]
 
     #Mots sur l'identité de JARVIS
-    mots_identite = ["qui","tu","presentes","creer","crée","nom","ton","conçue","appelle","appelles","fabriquer","developper","vous","presenter","presentez","toi","nom","presente","concevoir","concue","identite","presentation","ton nom","c'est quoi ton identité"]
+    mots_identite = ["qui","tu","présente","estu","creer","crée","nom","ton","conçue","appelle","appelles","fabriquer","developper","vous","presenter","presentez","toi","nom","presente","concevoir","concue","identite","presentation","ton nom","c'est quoi ton identité"]
     
     if sum(1 for m in clean_sentence if m in mots_identite) >= 2:
         return ("presentation_jarvis", clean_sentence) # Ajoute un return pour arrêter la fonction ici
@@ -76,6 +76,7 @@ def interpreter_commande(commande:str = None):
     #Retirer indice du min
     indice_min = np.argmin(tous_les_scores)
     score = tous_les_scores[indice_min]
+    print(score)
     seuil = 0.9
     print(f"score:{score} ,{dataset_entrainement[indice_min][1]}")
     if score <= seuil:
@@ -83,5 +84,6 @@ def interpreter_commande(commande:str = None):
         #on retourne l'intention de l'user et sa phrase nettoyé pour l'utiliser dans execution.py
         return (dataset_entrainement[indice_min][1], clean_sentence)
     else:
+        
         return (None,sentence)
     

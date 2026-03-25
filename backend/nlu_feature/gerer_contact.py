@@ -1,9 +1,11 @@
 import json
+import os
 
 
-def charger_contact(contact):
+def charger_contact():
+    path = os.path.join(os.path.dirname(__file__), "contact.json")
     try:
-        with open ('contact.json', 'r', encoding='utf-8') as f:
+        with open (path, 'r', encoding='utf-8') as f:
             repertoire = json.load(f)
         return repertoire
     except FileNotFoundError as e:

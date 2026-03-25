@@ -40,7 +40,7 @@ def executer_commande(prediction, phrase_user):
 
         if destinataire and message:
                 #Chercher dans les contacts
-                repertoire = charger_contact('dataset.csv')  
+                repertoire = charger_contact()  
                 email_cible = repertoire.get(destinataire.lower())
 
                 if email_cible: 

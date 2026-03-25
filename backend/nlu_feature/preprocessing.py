@@ -46,7 +46,7 @@ def nettoyer_phrase(sentence):
     clean_sentence = sentence.lower().strip()
     ponctuation = string.punctuation
     for symbole in ponctuation:
-        clean_sentence = clean_sentence.replace(symbole, "")  
+        clean_sentence = clean_sentence.replace(symbole, " ")  
     
     return clean_sentence.split(" ")
 

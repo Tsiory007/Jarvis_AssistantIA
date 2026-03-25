@@ -1,5 +1,6 @@
 OUVRIR CHROME, ouvrir_chrome
 LANCER CHROME, ouvrir_chrome
+LANCEZ CHROME, ouvrir_chrome
 ALLER INTERNET, ouvrir_chrome
 LANCER NAVIGATEUR, ouvrir_chrome
 OUVRIR NAVIGATEUR, ouvrir_chrome
@@ -33,3 +34,7 @@ CONTACTER MAIL, envoyer_mail
 MAIL, envoyer_mail
 REDIGER MESSAGE, envoyer_mail
 REDIGER MAIL, envoyer_mail
+QUI ES TU, presentation_jarvis
+PRESENTES TOI, presentation_jarvis
+PRESENTETOI, presentation_jarvis
+TON IDENTITE, presentation_jarvis

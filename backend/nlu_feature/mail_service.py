@@ -25,6 +25,7 @@ def envoyer_mail(destinaire_email, corps_message):
         with smtplib.SMTP("smtp.sendgrid.net", 587) as serveur:
             serveur.starttls()
             serveur.login(username, password)
+            print("Login au serveur SMTP reussi")
             serveur.send_message(message)
             print("Jarvis : Monsieur, le mail a été envoyé avec succès !")
             return True
