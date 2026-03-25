@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import monImage from "../../assets/ispm.png"; 
 
 export default function Orb3D() {
   const canvasRef  = useRef();
@@ -178,8 +179,8 @@ export default function Orb3D() {
     renderer.setClearColor(0x000000, 0);
 
     const scene  = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.5, 180);
-    camera.position.z = 3.2;
+    const camera = new THREE.PerspectiveCamera(36, window.innerWidth / window.innerHeight, 0.5, 180);
+    camera.position.z = 3.3;
 
     const lumiereAmbiante  = new THREE.AmbientLight(0x102040, 0.8);
     scene.add(lumiereAmbiante);
@@ -360,9 +361,27 @@ export default function Orb3D() {
         ref={canvasRef}
         style={{ cursor: "grab", width: "100%", height: "100%" , display: "block" }}
       />
+      <img
+      src={monImage}
+      alt="orb center"
+      style={{
+        position:     "absolute",
+        top:          "50%",
+        left:         "50%",
+        transform:    "translate(-50%, -50%)",
+        width:        "clamp(135px, 60%, 280px)",   // ← ajustez la taille ici
+        height:       "auto",
+        borderRadius: "50%",
+        opacity:      0.88,
+        pointerEvents:"none",
+        filter:       "drop-shadow(0 0 8px rgba(6,182,212,0.7)) drop-shadow(0 0 18px rgba(6,182,212,0.35))",
+        zIndex:       2,
+      }}
+    />
+
       {/* Indicateur TTS discret */}
       <div style={{
-        position: "absolute", bottom: -25, left: "50%",
+        position: "absolute", bottom: -30, left: "50%",
         transform: "translateX(-50%)",
         fontFamily: "'Orbitron', monospace",
         fontSize: 10, letterSpacing: "0.15em",
