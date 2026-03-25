@@ -1,10 +1,8 @@
 import os
 import sys
 from pathlib import Path 
-from preprocessing import nettoyer_phrase
-from intent_classifier import interpreter_commande
-from execution import executer_commande
-from preprocessing import nettoyer_phrase
+from nlu_feature.intent_classifier import interpreter_commande
+from nlu_feature.execution import executer_commande
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent

@@ -1,8 +1,9 @@
-import os 
 import webbrowser
 import urllib.parse
+from nlu_feature.gerer_contact import charger_contact
+from nlu_feature.mail_service import envoyer_mail
 
-from intent_classifier import interpreter_commande
+
 def executer_commande(prediction, phrase_user):
     if prediction == "ouvrir_chrome":
         webbrowser.open("https://www.google.com")

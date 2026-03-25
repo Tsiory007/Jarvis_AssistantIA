@@ -1,5 +1,7 @@
+import sys
 import time
 import os
+import sys
 import json
 import shutil
 import subprocess
@@ -7,6 +9,9 @@ from pathlib import Path
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from faster_whisper import WhisperModel
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+from nlu_feature.main import main as KnnRouter
+
 
 
 def find_ffmpeg():
@@ -108,6 +113,9 @@ class TranscribeHandler(FileSystemEventHandler):
         finally:
             self.processing.discard(path)
 
+
+
+
     def _transcribe_file(self, path):
         """Transcrit un fichier audio (avec conversion si nécessaire)."""
         ext = Path(path).suffix.lower()
@@ -138,8 +146,8 @@ class TranscribeHandler(FileSystemEventHandler):
             print(f"📝 Texte: {text[:150]}...")
             
             # Sauvegarder les résultats
-            self._save_results(path, text, info)
-            
+            self._save_results(work_path, text, info)
+            KnnRouter(text)
             # Supprimer le fichier source
             self._cleanup_files(path, temp_wav)
             
@@ -150,7 +158,7 @@ class TranscribeHandler(FileSystemEventHandler):
                     os.remove(temp_wav)
                 except:
                     pass
-
+        
     def _save_results(self, original_path, text, info):
         """Sauvegarde les résultats de transcription."""
         out_dir = os.path.dirname(original_path)
@@ -158,17 +166,7 @@ class TranscribeHandler(FileSystemEventHandler):
         
         txt_path = os.path.join(out_dir, f"{base}.txt")
         json_path = os.path.join(out_dir, f"{base}.json")
-        
-        # Fichier texte
-        try:
-            with open(txt_path, "w", encoding="utf-8") as tf:
-                tf.write(text)
-            print(f"💾 Texte sauvegardé: {Path(txt_path).name}")
-        except Exception as e:
-            print(f"⚠ Erreur écriture txt: {repr(e)}")
-            return
-        
-        # Métadonnées JSON
+         # Métadonnées JSON
         metadata = {
             "audio_file": Path(original_path).name,
             "transcript_file": Path(txt_path).name,
@@ -184,7 +182,7 @@ class TranscribeHandler(FileSystemEventHandler):
             print(f"💾 Métadonnées sauvegardées: {Path(json_path).name}")
         except Exception as e:
             print(f"⚠ Erreur écriture json: {repr(e)}")
-
+        
     def _cleanup_files(self, original_path, temp_wav):
         """Supprime les fichiers temporaires et originaux."""
         # Supprimer le fichier source
@@ -213,7 +211,7 @@ if __name__ == "__main__":
     # Charger le modèle une seule fois
     try:
         print("⏳ Chargement du modèle Faster-Whisper...")
-        model = WhisperModel("small", device="cpu", compute_type="int8")
+        model = WhisperModel("small", device="cuda", compute_type="int8")
         print("✅ Modèle chargé avec succès")
     except Exception as e:
         print(f"❌ Erreur chargement modèle: {repr(e)}")

@@ -1,11 +1,14 @@
-import pandas as pd
-import numpy as np
+import os
 import string
-
 #Lecture du fichier (dataset) 
 def charger_dataset():
+    # 1. On trouve le dossier où se trouve ce fichier de script
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # 2. On construit le chemin complet vers le CSV (qui est dans le même dossier)
+    file_path = os.path.join(base_dir, 'dataset.csv')
     try: 
-        with open ('dataset.csv', 'r', encoding='utf-8') as f:
+        with open (file_path, 'r', encoding='utf-8') as f:
             data = f.read()       
         print("Fichier chargé avec succès")
         print(data)

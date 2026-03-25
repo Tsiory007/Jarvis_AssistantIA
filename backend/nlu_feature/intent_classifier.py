@@ -2,7 +2,7 @@ import math
 import os
 import numpy as np
 import random
-from preprocessing import nettoyer_phrase, nettoyer_dataset, charger_dataset
+from nlu_feature.preprocessing import nettoyer_phrase, nettoyer_dataset, charger_dataset
 chemain_ai = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'ai_service'))
 
 #on appelle le resulat du chargement des données
