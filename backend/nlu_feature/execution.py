@@ -2,14 +2,18 @@ import webbrowser
 import urllib.parse
 from nlu_feature.gerer_contact import charger_contact
 from nlu_feature.mail_service import envoyer_mail
+from nlu_feature.audio_service import jouer_audio_aleatoire
+
 
 
 def executer_commande(prediction, phrase_user):
     if prediction == "ouvrir_chrome":
         webbrowser.open("https://www.google.com")
-        print("J'ai ouvert chrome pour vous")
+        jouer_audio_aleatoire("chrome")
 
     elif prediction == "envoyer_mail":
+
+        jouer_audio_aleatoire("filler")
 
         #preparation 
         destinataire = None
@@ -45,18 +49,17 @@ def executer_commande(prediction, phrase_user):
 
                     if succes:
                         print("Jarvis: Monsieur, le mail a été envoyé avec succès")
+                        jouer_audio_aleatoire("mail")
                     else: 
                         print("Une erreur est survenue")
+                        jouer_audio_aleatoire("confused")
 
             
-        
-    else:
-        print("Je n'ai pas compris à qui envoyer le mail")
     
     if prediction == 'play_song':
         verbes_musique = ["jouer","lancer", "chanson", "morceau", "playlist", "musique", "lancer","mettre","mets","diffuser","ecouter"]
         recherche = [m for m in phrase_user if m not in verbes_musique]
-
+        jouer_audio_aleatoire("music")
         #Espace dans le titre
         requete = " ".join(recherche)
         if requete:
@@ -69,6 +72,6 @@ def executer_commande(prediction, phrase_user):
             print("Quel musique veux tu ecouter? ")
     
     elif prediction == "presentation_jarvis":
-        print(f"Jarvis: "f"{phrase_user}")
+        jouer_audio_aleatoire("intro", "intro 1.wav")
 
 

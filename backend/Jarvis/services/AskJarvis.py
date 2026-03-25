@@ -42,22 +42,27 @@ import os
 
 load_dotenv()  
 
-url = "https://models.github.ai/inference/chat/completions"
-ApiKey =os.getenv('API_KEY')
 
-headers = {
-    "Accept": "application/vnd.github+json",
-    "Authorization": f"Bearer {ApiKey}",
-    "X-GitHub-Api-Version": "2022-11-28",
-    "Content-Type": "application/json"
-}
+#Modification pour l'importer dans le KNN (response non programmé)
 
-data = {
-    "model": "openai/gpt-4.1",
-    "messages": [
-        {"role": "user", "content": "Comment sera la meteo ce soir"}
-    ]
-}
+def ask_jarvis(question):
+    url = "https://models.github.ai/inference/chat/completions"
+    ApiKey =os.getenv('API_KEY')
+
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {ApiKey}",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "model": "openai/gpt-4o-mini",
+        "messages": [
+            {"role": "system", "content": "Tu es JARVIS. Tu dois répondre EXCLUSIVEMENT en français, de manière concise et polie. Ne réponds jamais dans une autre langue"},
+            {"role": "user", "content": question}
+        ]
+    }
 
 response = requests.post(url, headers=headers, json=data)
 
