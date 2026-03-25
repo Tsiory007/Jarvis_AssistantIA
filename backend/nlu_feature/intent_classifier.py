@@ -51,10 +51,8 @@ def calcul_des_distances(v_user, v_dataset):
     return distances
 
 
-def interpreter_commande():
-
-    #Demander input
-    sentence = input("Que voulez vous faire aujoud'hui Monsieur ?\n")
+def interpreter_commande(commande:str = None):
+    sentence = commande
     clean_sentence = nettoyer_phrase(sentence)
 
     #Verifier si on connait les mots
